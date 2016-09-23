@@ -1,0 +1,13 @@
+--== Scrapy ==--
+
+Scrapy ref.: http://doc.scrapy.org/en/latest/topics/selectors.html
+
+Install:
+>>pip install scrapy
+
+Create a new project: 
+>>scrapy startproject tutorial
+
+Run a spider (crawler):
+[/project-top-level]>>scrapy crawl <scrapy.Spider name>
+
