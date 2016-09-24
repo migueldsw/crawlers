@@ -12,3 +12,7 @@ class MycrawlersItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     pass
+
+class ItemPR(scrapy.Item):
+	perg = scrapy.Field()
+	resp = scrapy.Field()
