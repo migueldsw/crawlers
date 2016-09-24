@@ -1,5 +1,6 @@
 import scrapy
 from bs4 import BeautifulSoup as BS
+import os
 
 def composePR(perguntas,respostas,index):
 	return "P:\n%s\nR:\n%s" %(perguntas[index],respostas[index])
@@ -35,6 +36,9 @@ class PRSpider(scrapy.Spider):
 		perguntas = rr.xpath('//header/h3/text()').extract()
 		rawRespostas = rr.xpath('//div[@class="collap-body"]').extract()
 		respostas = []
+		outdir = './out'
+		if not os.path.isdir(outdir):
+			os.makedirs(outdir)
 		for i in rawRespostas:
 			respostas.append(htm2txt(i))
 		

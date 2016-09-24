@@ -90,3 +90,6 @@ ENV/
 
 #Apple
 .DS_Store
+
+#local project
+out/
