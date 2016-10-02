@@ -48,3 +48,4 @@ class PRSpider(scrapy.Spider):
 			writeFile('out/PR%d'%PRSpider.CONT,pr_str)
 
 		#print "THE DATA AMOUNT IS %d/%d !!!!!!!!!!" %(len(perguntas),len(respostas))
+		#
