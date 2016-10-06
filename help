@@ -11,3 +11,12 @@ Create a new project:
 Run a spider (crawler):
 [/project-top-level]>>scrapy crawl <scrapy.Spider name>
 
+
+--== BeautifulSoup ==--
+
+Install:
+>>pip install beautifulsoup4
+
+Import:
+from bs4 import BeautifulSoup as BS
+
