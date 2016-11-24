@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import scrapy
 from bs4 import BeautifulSoup as BS
 import os
@@ -8,6 +9,11 @@ def composePR(perguntas,respostas,index):
 
 def writeFile(filename,content):
 	f = open(filename,'w')
+	f.write(str(content).encode('utf8') + '\n')
+	f.close()
+
+def appendFile(filename,content):
+	f = open(filename,'a')
 	f.write(content.encode('utf8') + '\n')
 	f.close()
 
@@ -49,3 +55,30 @@ class PRSpider(scrapy.Spider):
 
 		#print "THE DATA AMOUNT IS %d/%d !!!!!!!!!!" %(len(perguntas),len(respostas))
 		#
+
+class Spider1(scrapy.Spider):
+	name = "spider_1"
+	start_urls = [
+		'http://jconline.ne10.uol.com.br/canal/cidades/geral/noticia/2016/11/23/rodoviarios-nao-vao-aderir-a-paralisacao-nacional-do-dia-25-261416.php'
+		]
+	CONT = 0
+
+	def parse(self, response):
+		rr = response
+		itensRaw = rr.xpath('//a/text()').extract()
+		print ('LEN : '+str(len(itensRaw)))
+		itensOut = []
+		outdir = './out'
+		if not os.path.isdir(outdir):
+			os.makedirs(outdir)
+		for i in itensRaw:
+			txt = htm2txt(i.encode('utf8'))
+			print ("____> "+ txt)
+			itensOut.append(txt)
+			appendFile('out/DATA',txt)
+		
+		for i in range(len(itensOut)):
+			pr_str = itensOut[i]
+			PRSpider.CONT+=1
+			#writeFile('out/DATA%d'%Spider1.CONT,pr_str)
+			#appendFile('out/DATA',pr_str)
