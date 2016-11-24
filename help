@@ -3,7 +3,9 @@
 Scrapy ref.: http://doc.scrapy.org/en/latest/topics/selectors.html
 
 Install:
->>pip install scrapy
+>>sudo apt-get install build-essential libssl-dev libffi-dev python-dev libxml2-dev
+
+>>sudo pip install scrapy
 
 Create a new project: 
 >>scrapy startproject tutorial
