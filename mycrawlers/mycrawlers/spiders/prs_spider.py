@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 import scrapy
+from scrapy.spiders import CrawlSpider, Rule
+from scrapy.linkextractors import LinkExtractor
 from bs4 import BeautifulSoup as BS
 import os
+
+from mycrawlers.items import ItemGeneric
 
 def composePR(perguntas,respostas,index):
 	return "P:\n%s\nR:\n%s" %(perguntas[index],respostas[index])
@@ -56,14 +60,18 @@ class PRSpider(scrapy.Spider):
 		#print "THE DATA AMOUNT IS %d/%d !!!!!!!!!!" %(len(perguntas),len(respostas))
 		#
 
-class Spider1(scrapy.Spider):
+class Spider1(CrawlSpider):
 	name = "spider_1"
+	allowed_domains = ['jconline.ne10.uol.com.br']
 	start_urls = [
+		'http://jconline.ne10.uol.com.br/',
 		'http://jconline.ne10.uol.com.br/canal/cidades/geral/noticia/2016/11/23/rodoviarios-nao-vao-aderir-a-paralisacao-nacional-do-dia-25-261416.php'
 		]
-	CONT = 0
+	rules = (Rule(LinkExtractor(allow=(), ), callback="parse_page", follow= True),)
 
-	def parse(self, response):
+	CONT = 1
+
+	def parse_page(self, response):
 		rr = response
 		itensRaw = []
 		
@@ -78,13 +86,8 @@ class Spider1(scrapy.Spider):
 		if not os.path.isdir(outdir):
 			os.makedirs(outdir)
 		for i in itensRaw:
-			txt = "<" + htm2txt(i.encode('utf8'))  + ">"
-			print ("____> "+ txt)
+			txt = htm2txt(i.encode('utf8'))
+			#print ("____> "+ txt)
 			itensOut.append(txt)
-			appendFile('out/DATA',txt)
-		
-		for i in range(len(itensOut)):
-			pr_str = itensOut[i]
-			PRSpider.CONT+=1
-			#writeFile('out/DATA%d'%Spider1.CONT,pr_str)
-			#appendFile('out/DATA',pr_str)
+			appendFile('out/DATA'+str(Spider1.CONT),txt)
+		Spider1.CONT+=1
