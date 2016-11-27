@@ -16,3 +16,7 @@ class MycrawlersItem(scrapy.Item):
 class ItemPR(scrapy.Item):
 	perg = scrapy.Field()
 	resp = scrapy.Field()
+
+class ItemGeneric(scrapy.Item):
+	title = scrapy.Field()
+	content = scrapy.Field()

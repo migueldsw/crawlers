@@ -65,14 +65,20 @@ class Spider1(scrapy.Spider):
 
 	def parse(self, response):
 		rr = response
-		itensRaw = rr.xpath('//a/text()').extract()
+		itensRaw = []
+		
+		itensRaw += rr.xpath('//h1/text()').extract()
+		itensRaw += rr.xpath('//h2/text()').extract()
+		itensRaw += rr.xpath('//h3/text()').extract()
+		itensRaw += rr.xpath('//p/text()').extract()
+
 		print ('LEN : '+str(len(itensRaw)))
 		itensOut = []
 		outdir = './out'
 		if not os.path.isdir(outdir):
 			os.makedirs(outdir)
 		for i in itensRaw:
-			txt = htm2txt(i.encode('utf8'))
+			txt = "<" + htm2txt(i.encode('utf8'))  + ">"
 			print ("____> "+ txt)
 			itensOut.append(txt)
 			appendFile('out/DATA',txt)
