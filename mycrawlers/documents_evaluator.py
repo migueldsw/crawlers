@@ -27,7 +27,9 @@ def calc_dissimilarity_matrix(docs_lines):
 	out = np.zeros(n**2).reshape(n,n)
 	for i in range(n):
 		for j in range(n):
-			out[i,j] = compare_files(docs_lines[i],docs_lines[j])
+			if (i>j):
+				out[i,j] = compare_files(docs_lines[i],docs_lines[j])
+				out[j, i] = out[i,j]
 	print 'dissimilarity matrix:'
 	print out
 	return out
@@ -35,7 +37,8 @@ def calc_dissimilarity_matrix(docs_lines):
 
 docs_lines, file_list = load_docs(DOCS_DIR)
 
-print 'docs_lines | file_list'
-print docs_lines
-print file_list
+# print 'docs_lines | file_list'
+# print docs_lines
+# print file_list
+
 D = calc_dissimilarity_matrix(docs_lines)
