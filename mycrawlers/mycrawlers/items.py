@@ -18,5 +18,7 @@ class ItemPR(scrapy.Item):
 	resp = scrapy.Field()
 
 class ItemGeneric(scrapy.Item):
+	iten_id = scrapy.Field()
 	title = scrapy.Field()
+	domain = scrapy.Field()
 	content = scrapy.Field()

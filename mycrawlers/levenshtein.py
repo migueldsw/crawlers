@@ -22,7 +22,10 @@ def levenshtein(s, t):
 
 def rlevd(s, t):
     '''Relative Levenshtein distance'''
-    return float(levenshtein(s,t))/(max(len(s),len(t)))
+    if (max(len(s),len(t)) == 0):
+        return 1
+    else: 
+        return float(levenshtein(s,t))/(max(len(s),len(t)))
 
 # import numpy as np
 # def levenshtein(source, target):
