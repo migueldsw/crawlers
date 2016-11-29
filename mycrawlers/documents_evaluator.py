@@ -14,18 +14,18 @@ def load_docs(docs_dir):
 	return docs_lines, file_list
 
 def compare_files(f1, f2):
-	#returns a list of distances between of each line from each file
-	out = []
-	for l1 in f1:
-		for l2 in f2:
-			out.append(rlevd(l1,l2))
-	return np.min(out)
-	#return out
+	f1.sort(key=len)
+	f2.sort(key=len)
+	str1 = ''.join(f1)
+	str2 = ''.join(f2)
+	return rlevd(str1,str2)
 
 def calc_dissimilarity_matrix(docs_lines):
 	n = len(docs_lines)
+	print ('Calculating dissimilarity matrix for %d documents...'%n)
 	out = np.zeros(n**2).reshape(n,n)
 	for i in range(n):
+		print ('...%d/%d...'%(i+1,n))
 		for j in range(n):
 			if (i>j):
 				out[i,j] = compare_files(docs_lines[i],docs_lines[j])

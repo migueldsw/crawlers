@@ -80,14 +80,14 @@ class Spider1(CrawlSpider):
 		itensRaw += rr.xpath('//h3/text()').extract()
 		itensRaw += rr.xpath('//p/text()').extract()
 
-		print ('LEN : '+str(len(itensRaw)))
+		#print ('LEN : '+str(len(itensRaw)))
 		itensOut = []
 		outdir = './out'
 		if not os.path.isdir(outdir):
 			os.makedirs(outdir)
 		for i in itensRaw:
 			txt = htm2txt(i.encode('utf8'))
-			#print ("____> "+ txt)
-			itensOut.append(txt)
-			appendFile('out/DATA'+str(Spider1.CONT),txt)
+			if (len(txt) >= 20): #string min. length
+				itensOut.append(txt)
+				appendFile('out/DATA'+str(Spider1.CONT),txt)
 		Spider1.CONT+=1
