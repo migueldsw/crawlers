@@ -20,5 +20,5 @@ class ItemPR(scrapy.Item):
 class ItemGeneric(scrapy.Item):
 	iten_id = scrapy.Field()
 	title = scrapy.Field()
-	domain = scrapy.Field()
+	url = scrapy.Field()
 	content = scrapy.Field()

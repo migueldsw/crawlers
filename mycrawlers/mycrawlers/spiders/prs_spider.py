@@ -73,6 +73,9 @@ class Spider1(CrawlSpider):
 
 	def parse_page(self, response):
 		rr = response
+
+		appendFile('URLS.log',rr.url)
+
 		itensRaw = []
 		
 		itensRaw += rr.xpath('//h1/text()').extract()
