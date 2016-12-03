@@ -35,10 +35,8 @@ def calc_dissimilarity_matrix(docs_lines):
 	return out
 
 
-docs_lines, file_list = load_docs(DOCS_DIR)
-
+#docs_lines, file_list = load_docs(DOCS_DIR)
 # print 'docs_lines | file_list'
 # print docs_lines
 # print file_list
-
-D = calc_dissimilarity_matrix(docs_lines)
+#D = calc_dissimilarity_matrix(docs_lines)

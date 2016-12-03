@@ -93,3 +93,4 @@ ENV/
 
 #local project
 out/
+plots/

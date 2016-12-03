@@ -85,7 +85,7 @@ class Spider1(CrawlSpider):
 		]
 	rules = (Rule(LinkExtractor(allow=(), ), callback="parse_page", follow= True),)
 
-	CONT = 1
+	CONT = 0
 
 	def parse_page(self, response):
 		rr = response
