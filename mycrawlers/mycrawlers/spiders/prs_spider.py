@@ -25,6 +25,22 @@ def htm2txt(htm):
 	frag = BS(htm)
 	return frag.get_text()
 
+INCLUSION_WORDS = ['/noticia']
+EXCLUSION_WORDS = ['busca/?q']
+
+def check_url(url,inclusion_words_list,exclusion_words_list):
+	#the given url must have at least one of the inclusion words, and none of the exclusion words.
+	accept = False
+	for w in inclusion_words_list:
+		if w in url:
+			accept = True
+			break
+	for w in exclusion_words_list:
+		if w in url:
+			accept = False
+			break
+	return accept
+
 class PRSpider(scrapy.Spider):
 	name = "prspider"
 	start_urls = [
@@ -73,24 +89,25 @@ class Spider1(CrawlSpider):
 
 	def parse_page(self, response):
 		rr = response
+		if check_url(rr.url,INCLUSION_WORDS,EXCLUSION_WORDS):
 
-		appendFile('URLS.log',rr.url)
+			appendFile('URLS.log',rr.url)
 
-		itensRaw = []
-		
-		itensRaw += rr.xpath('//h1/text()').extract()
-		itensRaw += rr.xpath('//h2/text()').extract()
-		itensRaw += rr.xpath('//h3/text()').extract()
-		itensRaw += rr.xpath('//p/text()').extract()
+			itensRaw = []
+			
+			itensRaw += rr.xpath('//h1/text()').extract()
+			itensRaw += rr.xpath('//h2/text()').extract()
+			itensRaw += rr.xpath('//h3/text()').extract()
+			itensRaw += rr.xpath('//p/text()').extract()
 
-		#print ('LEN : '+str(len(itensRaw)))
-		itensOut = []
-		outdir = './out'
-		if not os.path.isdir(outdir):
-			os.makedirs(outdir)
-		for i in itensRaw:
-			txt = htm2txt(i.encode('utf8'))
-			if (len(txt) >= 20): #string min. length
-				itensOut.append(txt)
-				appendFile('out/DATA'+str(Spider1.CONT),txt)
-		Spider1.CONT+=1
+			#print ('LEN : '+str(len(itensRaw)))
+			itensOut = []
+			outdir = './out'
+			if not os.path.isdir(outdir):
+				os.makedirs(outdir)
+			for i in itensRaw:
+				txt = htm2txt(i.encode('utf8'))
+				if (len(txt) >= 20): #string min. length
+					itensOut.append(txt)
+					appendFile('out/DATA'+str(Spider1.CONT),txt)
+			Spider1.CONT+=1
