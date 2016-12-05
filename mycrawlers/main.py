@@ -28,9 +28,11 @@ if not os.path.isdir(matrixdir):
 	os.makedirs(matrixdir)
 
 
-def save_matrix(matrix):
-	np.savetxt("matrix.csv", matrix, delimiter=",")
+def save_matrix(matrix,filename):
+	np.savetxt(matrixdir+"/"+filename+".csv", matrix, delimiter=",")
 
+def load_matrix(filename):
+	return np.loadtxt(matrixdir+"/"+filename+".csv", delimiter=",")
 
 
 docs_lines, file_list = load_docs(DOCS_DIR)
@@ -39,5 +41,8 @@ D = calc_dissimilarity_matrix(docs_lines)
 t = getCrono()
 print ('Done in %d sec'%t)
 
+save_matrix(D,'D1')
+
 C = calc_cluster(D)
 plot_dendrogram(C)
+
