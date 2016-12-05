@@ -4,6 +4,7 @@
 from cluster import  calc_cluster, plot_dendrogram
 from documents_evaluator import load_docs, compare_files, calc_dissimilarity_matrix
 from subprocess import call
+import numpy as np
 import os
 #call(['ls','-la'])
 
@@ -22,6 +23,13 @@ def getCrono(): # returns delta t in seconds
 plotdir = './plots'
 if not os.path.isdir(plotdir):
 	os.makedirs(plotdir)
+matrixdir = './matrix'
+if not os.path.isdir(matrixdir):
+	os.makedirs(matrixdir)
+
+
+def save_matrix(matrix):
+	np.savetxt("matrix.csv", matrix, delimiter=",")
 
 
 
