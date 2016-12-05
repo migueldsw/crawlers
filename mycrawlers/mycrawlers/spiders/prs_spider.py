@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
 from scrapy.spiders import CrawlSpider, Rule
+from scrapy.exceptions import CloseSpider
 from scrapy.linkextractors import LinkExtractor
 from bs4 import BeautifulSoup as BS
 import os
@@ -88,6 +89,10 @@ class Spider1(CrawlSpider):
 	CONT = 0
 
 	def parse_page(self, response):
+		#crawler doc limit
+		CRAW_LIMIT = 3
+		if (Spider1.CONT>=CRAW_LIMIT):
+			raise CloseSpider('docs_limit_exceeded')
 		rr = response
 		if check_url(rr.url,INCLUSION_WORDS,EXCLUSION_WORDS):
 
@@ -109,5 +114,5 @@ class Spider1(CrawlSpider):
 				txt = htm2txt(i.encode('utf8'))
 				if (len(txt) >= 20): #string min. length
 					itensOut.append(txt)
-					appendFile('out/DATA'+str(Spider1.CONT),txt)
+					appendFile('out/DOC-'+str(Spider1.CONT),txt)
 			Spider1.CONT+=1
