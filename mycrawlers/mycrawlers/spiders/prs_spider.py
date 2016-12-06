@@ -42,10 +42,10 @@ def remove_trash_itens(itens_lst,words_lst):
 
 def check_url(url,inclusion_words_list,exclusion_words_list):
 	#the given url must have at least one of the inclusion words, and none of the exclusion words.
-	accept = False
+	accept = True
 	for w in inclusion_words_list:
-		if w in url:
-			accept = True
+		if not w in url:
+			accept = False
 			break
 	for w in exclusion_words_list:
 		if w in url:
@@ -186,3 +186,50 @@ class Spider2(CrawlSpider):
 					itensOut.append(txt)
 					appendFile('out/DOC-DP-'+str(Spider2.CONT),txt)
 			Spider2.CONT+=1
+
+class Spider3(CrawlSpider):
+	name = "spider_3"
+	allowed_domains = ['http://www.folhape.com.br']
+	start_urls = [
+		'http://www.folhape.com.br/',
+		]
+	rules = (Rule(LinkExtractor(allow=(), ), callback="parse_page", follow= True),)
+
+	CONT = 0
+	INCLUSION_WORDS = ['/noticia','RENAN']
+	EXCLUSION_WORDS = ['busca/?q']
+	TRASH_WORDS = ['bua de mar','todos os direitos reservados.','Copyright Jornal Diario de Pernambuco', ' | 1']
+
+	def parse_page(self, response):
+		#crawler doc limit
+		CRAW_LIMIT = 30
+		if (Spider3.CONT>=CRAW_LIMIT):
+			raise CloseSpider('docs_limit_exceeded')
+		rr = response
+		if check_url(rr.url,Spider3.INCLUSION_WORDS,Spider3.EXCLUSION_WORDS):
+
+			appendFile('URLS.log',rr.url)
+
+			itensRaw = []
+			
+			itensRaw += rr.xpath('//h1/text()').extract()
+			itensRaw += rr.xpath('//h2/text()').extract()
+			itensRaw += rr.xpath('//h3/text()').extract()
+
+
+			itensRaw += rr.xpath('//p/text()').extract()
+
+
+			itensRaw = remove_trash_itens(itensRaw,Spider3.TRASH_WORDS)
+
+			#print ('LEN : '+str(len(itensRaw)))
+			itensOut = []
+			outdir = './out'
+			if not os.path.isdir(outdir):
+				os.makedirs(outdir)
+			for i in itensRaw:
+				txt = htm2txt(i.encode('utf8'))
+				if (len(txt) >= 20): #string min. length
+					itensOut.append(txt)
+					appendFile('out/DOC-DP-'+str(Spider3.CONT),txt)
+			Spider3.CONT+=1
