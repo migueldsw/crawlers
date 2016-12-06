@@ -8,6 +8,8 @@ import numpy as np
 import os
 #call(['ls','-la'])
 
+#run: scrapy crawl spider_1
+
 #-----------------------
 DOCS_DIR = 'out/'
 # UTILS------------------------------------------
